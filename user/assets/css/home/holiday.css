@@ -1,0 +1,95 @@
+.holiday .header_holiday {
+    padding: 3vh;
+    text-align: right;
+}
+
+.card {
+    width: 25vw;
+    height: 35vh;
+    background: #313131;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: 0.2s ease-in-out;
+  }
+  
+  .portImg {
+    position: absolute;
+    transition: 0.2s ease-in-out;
+    z-index: 1;
+    width: 25vw;
+    height: 35vh;
+  }
+
+.textBox {
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    transition: 0.4s ease-in-out;
+    z-index: 2;
+  }
+
+  .card:hover .textBox {
+    opacity: 1;
+  }
+  
+  .card:hover .portImg {
+    filter: brightness(40%);
+  }
+
+@media screen and (max-width: 1024px) {
+    .holiday .header_holiday {
+        text-align: center;
+    }
+
+    .card {
+        width: 26vw;
+        height: 13vh;
+    }
+    .portImg {
+        width: 26vw;
+        height: 13vh;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .card {
+        width: 40vw;
+        height: 20vh;
+    }
+
+    .portImg {
+        width: 40vw;
+        height: 20vh;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .card {
+        width: 80vw;
+        height: 25vh;
+    } 
+
+    .portImg {
+        width: 80vw;
+        height: 25vh;
+    }
+}
+
+@media screen and (max-height: 600px) {
+    .card {
+        width: 60vw;
+        height: 40vh;
+    } 
+
+    .portImg {
+        width: 60vw;
+        height: 40vh;
+    }
+}

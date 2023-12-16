@@ -1,0 +1,21 @@
+.carousel-item img {
+    height: 100vh !important;
+    filter: brightness(40%);
+}
+
+.text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    color: white;
+    text-align: center;
+    z-index: 1000;
+}
+
+@media screen and (max-width: 960px) {
+    .carousel-item img {
+        height: 550px !important;
+    }
+}

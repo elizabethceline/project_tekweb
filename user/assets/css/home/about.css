@@ -1,0 +1,63 @@
+.about {
+    padding: 5vh 20vh 5vh 20vh;
+}
+
+.about .header_aboutUs {
+    text-align: center;
+    padding: 5vh;
+}
+
+.box-container {
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(240, 240, 240);
+    width: 100%;
+    border-radius: 20px;
+}
+
+.box {
+    flex: 1;
+    height: auto;
+}
+
+.rightBox {
+    padding: 3vh;
+}
+
+.about-image {
+    height: auto;
+    width: 40vw;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+@media screen and (max-width: 1024px) {
+    .about {
+        padding: 5vh;
+    }
+
+    .box-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        background-color: transparent;
+    }
+
+    .rightBox {
+        width: 80vw;
+        background-color: white;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+
+    .about-image {
+        height: auto;
+        width: 80vw;
+        border-top-right-radius: 20px;
+        border-bottom-left-radius: 0;
+    }
+}
+
+@media screen and (max-width: 540px) {
+     
+} 

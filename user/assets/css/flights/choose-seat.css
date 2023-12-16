@@ -1,0 +1,84 @@
+#seat-container {
+  width: 80vw;
+  margin: 0 auto;
+  text-align: center;
+  color: white;
+  padding: 2rem 3rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  margin-top: 5vh;
+  height: auto;
+  border-radius: 20px;
+  margin-bottom: 30px;
+}
+
+.seat {
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  height: 30px !important;
+}
+
+.seat[id$="C"] {
+  margin-right: 15vw !important;
+}
+
+.available {
+  background-color: rgb(87, 142, 87);
+}
+
+.unavailable {
+  background-color: rgb(179, 99, 99);
+  pointer-events: none;
+}
+
+.selected {
+  background-color: rgb(62, 106, 167);
+}
+
+.confirm-seat {
+  width: 300px;
+  background-color: rgba(0, 0, 0, 0.5);
+  margin: 0 auto;
+  text-align: center;
+  color: white;
+  padding: 2rem 3rem;
+  height: auto;
+  border-radius: 20px;
+  margin-bottom: 30px;
+}
+
+@media screen and (max-width: 768px) {
+  #seat-container {
+    width: 85vw;
+    font-size: 0.6rem !important;
+    padding: 1rem;
+  }
+
+  .seat {
+    margin: 3px 1px;
+    padding: 0.5px;
+    height: 20px !important;
+  }
+
+  .seat[id$="C"] {
+    margin-right: 40px !important;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  #seat-container {
+    width: 90vw;
+    font-size: 0.5rem;
+  }
+
+  .seat {
+    margin: 2px 0.5px;
+  }
+
+  .seat[id$="C"] {
+    margin-right: 30px !important;
+  }
+}
