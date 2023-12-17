@@ -208,7 +208,7 @@ body::-webkit-scrollbar-thumb {
 
 @media screen and (max-width: 991.9px) {
   .navbar-custom {
-    padding: 0 6px;
+    padding: 0 6px !important;
   }
 
   .navbar-custom .navbar-brand img.logo {
