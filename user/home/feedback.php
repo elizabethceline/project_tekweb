@@ -4,7 +4,6 @@
     ini_set('display_errors', 1);
 
     require_once("../../conn.php");
-    $username = $_SESSION["email"];
 ?>
 
 <!DOCTYPE html>
