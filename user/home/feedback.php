@@ -1,31 +1,28 @@
 <?php
-    session_start();
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
+session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-    require_once("../../conn.php");
-    $username = $_SESSION["email"];
+require_once("../../conn.php");
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/main.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <?php
-        include('../assets/css/main.html');
+    include('../assets/css/main.html');
     ?>
     <title>Feedback</title>
 
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
             background-color: #252529;
+            font-family: 'Gothic';
         }
 
         h4 {
@@ -38,18 +35,39 @@
             font-family: "GothicBold";
         }
 
-        .container {
+        .box-container {
             max-width: 768px;
-            margin-top: 10vh;
+            margin-top: 150px;
         }
     </style>
 </head>
-<body class="p-4">
+
+<body>
     <?php
-        include('../navbar.php');
+    include('../navbar.php');
     ?>
-    <div class="container rounded-4 bg-white">
-        <div class="form-container">
+    <div class="container box-container rounded-4 bg-white">
+        <?php
+        $berhasil = '';
+
+        if (isset($_COOKIE['berhasil'])) {
+            setcookie('berhasil', '', time() - 3600, '/');
+
+            $berhasil = '<script>
+            Swal.fire({
+                heightAuto: false,
+                title: "Berhasil Mengirimkan Feedback!",
+                text: "Terima kasih telah memberikan feedback!",
+                icon: "success"
+            });
+        </script>';
+        }
+
+        if (!empty($berhasil)) {
+            echo '<div>' . $berhasil . '</div>';
+        }
+        ?>
+        <div class="form-container p-2">
             <form method="post">
                 <div class="m-3">
                     <h4 class="text-right">Feedback</h4>
@@ -66,7 +84,7 @@
                     </div>
                     <div class="col-md-12 my-3">
                         <label class="labels">Feedback</label>
-                        <textarea name="feedback" id="" cols="15" rows="5" class="form-control"  required></textarea>
+                        <textarea name="feedback" id="" cols="15" rows="5" class="form-control" required></textarea>
                     </div>
                     <div class="my-3 text-center">
                         <button class="btn btn-dark" type="submit">Send Feedback</button>
@@ -87,25 +105,11 @@
 
         $stmt->execute();
         header('Location: feedback.php');
-    } 
-
-    $berhasil = '';
-    if (isset($_COOKIE['berhasil'])) {
-        setcookie('berhasil', null, time() - 3600, '/');
-
-        $berhasil = '<script>
-        Swal.fire({
-            heightAuto: false,
-            title: "Berhasil Mengirimkan Feedback!",
-            text: "Terima kasih telah memberikan feedback!",
-            icon: "success"
-        });
-    </script>';
     }
 
-    echo '<div>' . $berhasil . '</div>';
     ob_end_flush();
     ?>
 
 </body>
+
 </html>
