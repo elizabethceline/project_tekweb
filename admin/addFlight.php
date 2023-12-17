@@ -36,14 +36,11 @@ ob_start(); ?>
     }
 
     .form-control {
-        background-color: transparent;
-        border: 1px solid #262220;
+        background-color: #F7F1F0;
     }
-
 
     .form-control:focus {
         background-color: transparent;
-        border: 1px solid #262220;
         box-shadow: none;
     }
 
