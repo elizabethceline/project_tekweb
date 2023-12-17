@@ -52,7 +52,7 @@ if ($status == PHP_SESSION_NONE) {
                         </li>
                     <?php else : ?>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#"><i class="fa-solid fa-house" style="color: #ffffff;"></i> Home</a>
+                            <a class="nav-link active" aria-current="page" href="../home/index.php"><i class="fa-solid fa-house" style="color: #ffffff;"></i> Home</a>
                         </li>
 
                         <li class="nav-item">

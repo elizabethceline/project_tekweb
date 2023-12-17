@@ -142,7 +142,7 @@ body::-webkit-scrollbar-thumb {
   padding: 3px 12px;
   position: relative;
   height: 80px;
-  padding: 0 15vh;
+  padding: 0 15vh !important;
 }
 
 .navbar-custom .navbar-toggler {
