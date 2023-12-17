@@ -85,7 +85,7 @@
             if ($result->num_rows > 0) {
                 $_SESSION['username'] = $username;
                 if(isset($_SESSION['username'])) {
-                    header('Location: listUser.php');
+                    header('Location: addFlight.php');
                 }
             } else {
                 setcookie('gagal', true, time() + 3600, '/');
