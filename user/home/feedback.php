@@ -3,9 +3,8 @@
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
 
-    if (isset($_SESSION["email"])) {
-        require_once("../../conn.php");
-        $username = $_SESSION["email"];
+    require_once("../../conn.php");
+    $username = $_SESSION["email"];
 ?>
 
 <!DOCTYPE html>
@@ -89,10 +88,6 @@
         $stmt->execute();
         header('Location: feedback.php');
     } 
-    
-} else {
-        header('Location: index.php');
-    }
 
     $berhasil = '';
     if (isset($_COOKIE['berhasil'])) {
