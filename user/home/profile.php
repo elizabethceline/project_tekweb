@@ -20,7 +20,7 @@
 
     <style>
         body {
-            margin-top: 100px;
+            margin-top: 80px;
         }
 
         .hline {

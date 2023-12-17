@@ -1,4 +1,10 @@
-<?php 
+<?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: index.php");
+    exit();
+}
+
 function connectDB()
 {
     $host = "localhost";
@@ -22,32 +28,33 @@ function getFoodData()
     return mysqli_query($conn, $query);
 }
 
-function getMenuDataById($id) {
+function getMenuDataById($id)
+{
     $conn = connectDB();
     $query = "SELECT * FROM food WHERE id = $id";
     $result = mysqli_query($conn, $query);
     $data = mysqli_fetch_assoc($result);
     closeDB($conn);
-    
+
     return $data;
 }
 
 
-function getFlightData() 
+function getFlightData()
 {
     $conn = connectDB();
     $query = "SELECT * FROM flight";
     return mysqli_query($conn, $query);
 }
 
-function getBandara() 
+function getBandara()
 {
     $conn = connectDB();
     $query = "SELECT name, code FROM airport";
     return mysqli_query($conn, $query);
 }
 
-function getTotalPendapatanFlight() 
+function getTotalPendapatanFlight()
 {
     $conn = connectDB();
     $query = "SELECT SUM(f.price) AS total_pendapatan
@@ -60,7 +67,7 @@ function getTotalPendapatanFlight()
     return $data['total_pendapatan'];
 }
 
-function getTotalPendapatanMakanan() 
+function getTotalPendapatanMakanan()
 {
     $conn = connectDB();
     $query = "SELECT SUM(total) AS total_pendapatan
@@ -71,5 +78,3 @@ function getTotalPendapatanMakanan()
 
     return $data['total_pendapatan'];
 }
-
- ?>
