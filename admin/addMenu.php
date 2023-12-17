@@ -1,4 +1,5 @@
-<?php include_once("controller.php") ?>
+<?php include_once("controller.php");
+ob_start(); ?>
 <!doctype html>
 <html lang="en">
 
@@ -81,6 +82,7 @@
 
 <body>
     <?php include "navbar.php"; ?>
+
     <div class="container">
         <div class="row justify-content-center my-5">
             <div class="col-12 col-lg-8">
@@ -124,6 +126,8 @@
                     $sql = "INSERT INTO `food` (`id`, `name`, `description`, `photo`, `price`) VALUES (NULL, '$name', '$desc', '$photo', '$price');";
                     mysqli_query($conn, $sql);
                     closeDB($conn);
+                    header("Location: addMenu.php");
+                    exit();
                 }
                 ?>
             </div>
@@ -169,7 +173,7 @@
                         <form method='post' class='status-form'>
                             <input type='hidden' name='menu_id' value='<?= $id ?>'>
                             <button type='button' class='btn btn-warning' data-bs-toggle='modal' data-bs-target='#updateModal<?= $id ?>'>Update</button>
-                            <button class='change-status-btn btn btn-primary' data-menu-id='<?= $id ?>' data-current-status='$status'>Change</button>
+                            <button class='change-status-btn btn btn-primary' data-menu-id='<?= $id ?>' data-current-status='<?= $status ?>'>Change</button>
                         </form>
                         </td>
                         </tr>
@@ -181,7 +185,8 @@
                                         <h5 class="modal-title font-goblin" id="updateModalLabel">Update Menu</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <form method="post" action="update_menu.php">
+                                    <form method="post" enctype="multipart/form-data" action="update_food.php">
+                                        <input type="hidden" id="updateMenuId" name="menu_id" value="<?= $data['id'] ?>">
                                         <div class="modal-body">
                                             <div class="mb-3">
                                                 <label for="updateName" class="form-label">Menu name:</label>
@@ -210,21 +215,8 @@
                             </div>
                         </div>
                     <?php
-                        echo "<script>$('#updateModal{$id}').modal('show');</script>";
                     endwhile;
-
-                    if (isset($_POST['updateMenu'])) {
-                        $menuId = $_POST['menu_id'];
-                        $name = $_POST['updateName'];
-                        $desc = $_POST['updateDescription'];
-                        $price = $_POST['updatePrice'];
-                        $photo = isset($_FILES['updateImage']['name']) ? $_FILES['updateImage']['name'] : null;
-
-                        $conn = connectDB();
-                        $sql = "UPDATE `food` SET `name`='$name', `description`='$desc', `price`='$price', `photo`='$photo' WHERE `id`='$menuId'";
-                        mysqli_query($conn, $sql);
-                        closeDB($conn);
-                    }
+                    ob_end_flush();
                     ?>
 
                 </tbody>

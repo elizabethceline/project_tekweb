@@ -64,9 +64,13 @@ $user = $_SESSION["email"];
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         $price = number_format($row['price'], 2, ',', '.');
+                        $photo = $row['photo'];
+                        if (strpos($photo, 'http') === false) {
+                            $photo = '../../admin/uploads/' . $photo;
+                        }
                         echo '<div class="col-md-4 mx-auto">
                         <div class="card card1 mt-4 mb-4 border-0">
-                        <img src="../pathHAHA" class="card-img-top" alt="' . $row["name"] . '">
+                        <img src="' . $photo . '"class="card-img-top" alt="' . $row["name"] . '">
                             <div class="card-body p-4">
                                 <h4 class="card-title"><b>' . $row["name"] . '</b></h4>
                                 <p class="card-text">' . $row["description"] . '</p>
@@ -98,7 +102,7 @@ $user = $_SESSION["email"];
                         </div>
                     </div>
                     <?php
-                    $sql = "SELECT f.name AS name, f.id AS idFood, c.quantity AS quantity, f.price AS price from `cart` c JOIN `food` f ON (c.id_food = f.id) JOIN `user` u ON (c.id_user = u.id) WHERE u.email = '$user' || u.username = '$user'";
+                    $sql = "SELECT f.photo as photo, f.name AS name, f.id AS idFood, c.quantity AS quantity, f.price AS price from `cart` c JOIN `food` f ON (c.id_food = f.id) JOIN `user` u ON (c.id_user = u.id) WHERE u.email = '$user' || u.username = '$user'";
                     $result = $conn->query($sql);
                     $total = 0;
                     if ($result->num_rows > 0) {
@@ -106,9 +110,13 @@ $user = $_SESSION["email"];
                             $price = $row["price"] * $row["quantity"];
                             $total += $price;
                             $price = number_format($price, 2, ',', '.');
+                            $photo = $row['photo'];
+                            if (strpos($photo, 'http') === false) {
+                                $photo = '../../admin/uploads/' . $photo;
+                            }
                             echo '<div class="row">
                             <div class="row main align-items-center">
-                                <div class="col-2"><img class="img-fluid" src="img/path"></div>
+                                <div class="col-2"><img class="img-fluid" src="' . $photo . '"></div>
                                 <div class="col">
                                     <div class="row name-row">' . $row["name"] . '</div>
                                 </div>
@@ -190,7 +198,7 @@ $user = $_SESSION["email"];
                                 <div class="col align-self-center text-right text-muted">' . $row["time"] . '</div>
                             </div>
                         </div>';
-                $sqlitems = "SELECT f.name AS name, ftd.quantity AS quanti, f.price AS price
+                $sqlitems = "SELECT f.photo as photo, f.name AS name, ftd.quantity AS quanti, f.price AS price
                                 FROM `food_transaction_details` ftd
                                 JOIN `food_transaction` ft ON (ftd.id_food_transaction = ft.id)
                                 JOIN `food` f ON (ftd.id_food = f.id)
@@ -200,9 +208,13 @@ $user = $_SESSION["email"];
                     while ($items = $itemsresult->fetch_assoc()) {
                         $price = $items["quanti"] * $items["price"];
                         $price = number_format($price, 2, ',', '.');
+                        $photo = $items['photo'];
+                        if (strpos($photo, 'http') === false) {
+                            $photo = '../../admin/uploads/' . $photo;
+                        }
                         echo '<div class="row">
                             <div class="row main align-items-center">
-                                <div class="col-2"><img class="img-fluid" src="img/path"></div>
+                                <div class="col-2"><img class="img-fluid" src="' . $photo . '"></div>
                                 <div class="col">
                                     <div class="row">' . $items["name"] . '</div>
                                 </div>
@@ -346,6 +358,7 @@ $user = $_SESSION["email"];
                                 url: "checkout.php",
                                 success: function(response) {
                                     $('.cart').hide();
+                                    $('.menu').hide();
                                     $(".orders").html(response);
                                     $('.cart-btn').removeClass('active');
                                     $('.orders-btn').addClass('active');
@@ -395,6 +408,7 @@ $user = $_SESSION["email"];
                     },
                     success: function(response) {
                         $('.menu').hide();
+                        $('.orders').hide();
                         $(".cart").html(response);
                         $('.menu-btn').removeClass('active');
                         $('.cart-btn').addClass('active');
@@ -420,6 +434,7 @@ $user = $_SESSION["email"];
                     url: "reloadCart.php",
                     success: function(response) {
                         $('.menu').hide();
+                        $('.orders').hide();
                         $(".cart").html(response);
                         $('.menu-btn').removeClass('active');
                         $('.cart-btn').addClass('active');

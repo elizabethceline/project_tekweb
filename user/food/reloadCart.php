@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 </div>
                             </div>
                         </div>';
-            $sql = "SELECT f.name AS name, f.id AS idFood, c.quantity AS quantity, f.price AS price from `cart` c JOIN `food` f ON (c.id_food = f.id) JOIN `user` u ON (c.id_user = u.id) WHERE u.email = '$user' || u.username = '$user'";
+            $sql = "SELECT f.photo as photo, f.name AS name, f.id AS idFood, c.quantity AS quantity, f.price AS price from `cart` c JOIN `food` f ON (c.id_food = f.id) JOIN `user` u ON (c.id_user = u.id) WHERE u.email = '$user' || u.username = '$user'";
             $result = $conn->query($sql);
             $total = 0;
             if ($result->num_rows > 0) {
@@ -31,9 +31,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $price = $row["price"] * $row["quantity"];
                     $total += $price;
                     $price = number_format($price, 2, ',', '.');
+                    $photo = $row['photo'];
+                        if (strpos($photo, 'http') === false) {
+                            $photo = '../../admin/uploads/' . $photo;
+                        }
                     echo '<div class="row">
                                 <div class="row main align-items-center">
-                                    <div class="col-2"><img class="img-fluid" src="img/path"></div>
+                                    <div class="col-2"><img class="img-fluid" src="' . $photo . '"></div>
                                     <div class="col">
                                         <div class="row name-row">' . $row["name"] . '</div>
                                     </div>

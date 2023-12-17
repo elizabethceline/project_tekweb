@@ -1,4 +1,5 @@
-<?php include_once("controller.php") ?>
+<?php include_once("controller.php"); 
+ob_start(); ?>
 <!doctype html>
 <html lang="en">
 
@@ -73,7 +74,6 @@
 <body>
     <?php include "navbar.php"; ?>
 
-
     <div class="container">
         <div class="row justify-content-center my-5">
             <div class="col-12 col-lg-8">
@@ -92,7 +92,7 @@
                                 while ($data = $allData->fetch_assoc()) {
                                     $bandara = $data['name'];
                                     $kode = $data['code'];
-                                    echo "<option>$bandara - $kode</option>";
+                                    echo "<option value = " . $data['id'] . ">$bandara - $kode</option>";
                                 }
                                 ?>
                             </select>
@@ -100,7 +100,14 @@
                         <div class="mb-3">
                             <label for="to" class="form-label">To:</label>
                             <select name="to" id="to" class="form-control">
-                                
+                                <?php
+                                $allData = getBandara();
+                                while ($data = $allData->fetch_assoc()) {
+                                    $bandara = $data['name'];
+                                    $kode = $data['code'];
+                                    echo "<option value = " . $data['id'] . ">$bandara - $kode</option>";
+                                }
+                                ?>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -110,6 +117,10 @@
                         <div class="mb-3">
                             <label for="dtime" class="form-label">Departure Time:</label>
                             <input type="time" name="dtime" id="dtime" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="atime" class="form-label">Arrive Time:</label>
+                            <input type="time" name="atime" id="atime" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label for="ftime" class="form-label">Flight Time:</label>
@@ -132,13 +143,16 @@
                     $to = $_POST['to'];
                     $ddate = $_POST['ddate'];
                     $dtime = $_POST['dtime'];
+                    $atime = $_POST['atime'];
                     $ftime = $_POST['ftime'];
                     $price = $_POST['price'];
 
                     $conn = connectDB();
-                    $sql = "INSERT INTO `flight` (`id`, `code`, `from`, `to`, `departure_date`, `departure_time`, `flight_time`, `price`, `status`) VALUES (NULL, '$code', '$from', '$to', '$ddate', '$dtime', '$ftime', '$price',0)";
+                    $sql = "INSERT INTO `flight` (`id`, `code`, `from`, `to`, `departure_date`, `departure_time`, `arrive_time`, `flight_time`, `price`, `status`) VALUES (NULL, '$code', '$from', '$to', '$ddate', '$atime', '$dtime', '$ftime', '$price',0)";
                     mysqli_query($conn, $sql);
                     closeDB($conn);
+                    header("Location: addFlight.php");
+                    exit();
                 }
                 ?>
             </div>
@@ -159,6 +173,7 @@
                         <th data-sort="to">To</th>
                         <th data-sort="ddate">Departure Date</th>
                         <th data-sort="dtime">Departure Time</th>
+                        <th data-sort="dtime">Arrive Time</th>
                         <th data-sort="ftime">Flight Time</th>
                         <th data-sort="price">Price</th>
                         <th>Status</th>
@@ -172,12 +187,16 @@
                         $id = $data['id'];
                         $price = $data['price'];
                         $status = $data['status'];
+                        $from = getAirportName($data['from']);
+                        $to = getAirportName($data['to']);
+
                         echo "<tr>
                                 <td class='col-1'>" . $data['code'] . "</td>
-                                <td>" . $data['from'] . "</td>
-                                <td>" . $data["to"] . "</td>
+                                <td>" . $from . "</td>
+                                <td>" . $to . "</td>
                                 <td>" . $data["departure_date"] . " </td>
                                 <td>" . $data["departure_time"] . " </td>
+                                <td>" . $data["arrive_time"] . " </td>
                                 <td class='col-1'>" . $data["flight_time"] . " </td>
                                 <td> Rp." . number_format($price, 0, ',', '.') . "</td>
                                 <td class='status-cell'>" . ($status == 0 ? 'Available' : 'Not Available') . "</td>

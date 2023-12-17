@@ -39,6 +39,17 @@ function getMenuDataById($id)
     return $data;
 }
 
+function getAirportName($id)
+{
+    $conn = connectDB();
+    $query = "SELECT name, city FROM airport WHERE id = $id";
+    $result = mysqli_query($conn, $query);
+    $data = mysqli_fetch_assoc($result);
+    closeDB($conn);
+
+    return $data['name'] . ", " . $data['city'];
+}
+
 
 function getFlightData()
 {
@@ -50,7 +61,7 @@ function getFlightData()
 function getBandara()
 {
     $conn = connectDB();
-    $query = "SELECT name, code FROM airport";
+    $query = "SELECT id, name, code FROM airport";
     return mysqli_query($conn, $query);
 }
 

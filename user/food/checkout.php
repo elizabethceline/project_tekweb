@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 <div class="col align-self-center text-right text-muted">' . $row["time"] . '</div>
                             </div>
                         </div>';
-                $sqlitems = "SELECT f.name AS name, ftd.quantity AS quanti, f.price AS price
+                $sqlitems = "SELECT f.photo as photo, f.name AS name, ftd.quantity AS quanti, f.price AS price
                                 FROM `food_transaction_details` ftd
                                 JOIN `food_transaction` ft ON (ftd.id_food_transaction = ft.id)
                                 JOIN `food` f ON (ftd.id_food = f.id)
@@ -105,9 +105,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     while ($items = $itemsresult->fetch_assoc()) {
                         $price = $items["quanti"] * $items["price"];
                         $price = number_format($price, 2, ',', '.');
+                        $photo = $items['photo'];
+                        if (strpos($photo, 'http') === false) {
+                            $photo = '../../admin/uploads/' . $photo;
+                        }
                         echo '<div class="row">
                             <div class="row main align-items-center">
-                                <div class="col-2"><img class="img-fluid" src="img/path"></div>
+                                <div class="col-2"><img class="img-fluid" src="' . $photo . '"></div>
                                 <div class="col">
                                     <div class="row">' . $items["name"] . '</div>
                                 </div>
