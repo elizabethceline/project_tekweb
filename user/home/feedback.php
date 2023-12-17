@@ -25,7 +25,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             background-color: #252529;
         }
 
@@ -40,29 +40,24 @@
         }
 
         .container {
-            width: 768px;
-            max-width: 100%;
-            min-height: 480px;
-        }
-
-        .form-select, .form-control{
-            width: 90%;
+            max-width: 768px;
+            margin-top: 10vh;
         }
     </style>
 </head>
-<body>
+<body class="p-4">
     <?php
         include('../navbar.php');
     ?>
-    <div class="container rounded-4 bg-white m-5">
+    <div class="container rounded-4 bg-white">
         <div class="form-container">
             <form method="post">
                 <div class="m-3">
                     <h4 class="text-right">Feedback</h4>
                 </div>
-                <div class="row mt-3">
-                    <div class="col-md-12 m-3" id="test">
-                        <label class="labels m-1">Topic</label>
+                <div class="row mt-3 p-3">
+                    <div class="col-md-12 my-3" id="test">
+                        <label class="labels">Topic</label>
                         <select class="form-select" id="topik" name="topik" required>
                             <option value="" selected>Choose</option>
                             <option value="Kenyamanan pesawat">Kenyamanan pesawat</option>
@@ -70,11 +65,11 @@
                             <option value="Service">Service</option>
                         </select>
                     </div>
-                    <div class="col-md-12 m-3">
-                        <label class="labels m-1">Feedback</label>
-                        <textarea name="feedback" id="" cols="30" rows="10" class="form-control"  required></textarea>
+                    <div class="col-md-12 my-3">
+                        <label class="labels">Feedback</label>
+                        <textarea name="feedback" id="" cols="15" rows="5" class="form-control"  required></textarea>
                     </div>
-                    <div class="my-5 text-center">
+                    <div class="my-3 text-center">
                         <button class="btn btn-dark" type="submit">Send Feedback</button>
                     </div>
                 </div>
