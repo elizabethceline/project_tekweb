@@ -58,7 +58,7 @@ $user = $_SESSION["email"];
         <div class="container mb-4 p-4">
             <div class="row justify-content-center">
                 <?php
-                $sql = "SELECT * from food";
+                $sql = "SELECT * from food WHERE status = 0";
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {

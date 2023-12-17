@@ -23,6 +23,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 </div>
                             </div>
                         </div>';
+            $sql = "DELETE FROM `cart`
+            WHERE (id_user, id_food) IN (
+                SELECT c.id_user, c.id_food
+                FROM `cart` c
+                JOIN `food` f ON c.id_food = f.id
+                JOIN `user` u ON c.id_user = u.id
+                WHERE (u.email = '$user' OR u.username = '$user') AND f.status = 1
+            );";
+            $conn->query($sql);
             $sql = "SELECT f.photo as photo, f.name AS name, f.id AS idFood, c.quantity AS quantity, f.price AS price from `cart` c JOIN `food` f ON (c.id_food = f.id) JOIN `user` u ON (c.id_user = u.id) WHERE u.email = '$user' || u.username = '$user'";
             $result = $conn->query($sql);
             $total = 0;
@@ -32,9 +41,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $total += $price;
                     $price = number_format($price, 2, ',', '.');
                     $photo = $row['photo'];
-                        if (strpos($photo, 'http') === false) {
-                            $photo = '../../admin/uploads/' . $photo;
-                        }
+                    if (strpos($photo, 'http') === false) {
+                        $photo = '../../admin/uploads/' . $photo;
+                    }
                     echo '<div class="row">
                                 <div class="row main align-items-center">
                                     <div class="col-2"><img class="img-fluid" src="' . $photo . '"></div>
