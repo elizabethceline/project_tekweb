@@ -1,5 +1,6 @@
 <?php
 session_start();
+ob_start();
 if (isset($_SESSION['username'])) {
 ?>
     <!DOCTYPE html>
@@ -108,6 +109,7 @@ if (isset($_SESSION['username'])) {
 } else {
     header("Location: index.php");
 }
+ob_end_flush();
 ?>
 
     </html>

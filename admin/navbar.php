@@ -16,6 +16,12 @@
                     <a class="nav-link" href="summary.php">Summary</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="flightTransaction.php">Flight Transaction</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="foodTransaction.php">Food Transaction</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="listFeedback.php">Feedback</a>
                 </li>
                 <li class="nav-item">
