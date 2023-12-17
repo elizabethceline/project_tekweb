@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,7 +51,8 @@
                 <h1 style="margin-bottom: 1vh;">Password Recovery</h1>
                 <input type="text" placeholder="Email / Username" id="recoverEmail" name="emailRecovery" required>
                 <input type="password" placeholder="New Password" id="recoverPass" name="passwordRecovery" required>
-                <button type="submit" id="update">Update</button>
+                <button type="submit">Update</button>
+                <button type="button" id="back">Back</button>
             </form>
         </div>
 
@@ -67,10 +72,9 @@
             </div>
         </div>
     </div>
-</body>
 
 <?php
-session_start();
+
 if (isset($_POST["email"]) && isset($_POST["password"])) {
     require_once("../../conn.php");
     $email = $_POST["email"];
@@ -80,7 +84,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
-        echo "<script> alert('password benar') </script>";
+        // setcookie('berhasil', true, time() + 3600, '/');
         $_SESSION["email"] = $email;
         if (isset($_SESSION['email'])) {
             header('location: ../home/index.php');
@@ -94,22 +98,16 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
+            // setcookie('berhasil', true, time() + 3600, '/');
             echo "<script> alert('password benar') </script>";
             $_SESSION["email"] = $username;
             if (isset($_SESSION['email'])) {
                 header('location: ../home/index.php');
             }
         } else {
-?>
-            <script>
-                Swal.fire({
-                    title: "Password Salah!",
-                    text: "Inputkan password yang benar!",
-                    icon: "error"
-                });
-            </script>
-        <?php
+            setcookie('gagal-password', true, time() + 3600, '/');
             session_destroy();
+            header("Location: index.php");
         }
     }
 } elseif (isset($_POST["signupName"]) && isset($_POST["signupUsername"]) && isset($_POST["signupEmail"]) && isset($_POST["passport"]) && isset($_POST["phoneNumber"]) && isset($_POST["signupPassword"])) {
@@ -131,56 +129,27 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     $stmtUsername->execute();
     $resultUsername = $stmtUsername->get_result();
     if ($resultUsername->num_rows > 0) {
-        ?>
-        <script>
-            Swal.fire({
-                title: "Username telah dipakai!",
-                text: "Inputkan username lain!",
-                icon: "error"
-            });
-        </script>
-        <?php
+        setcookie('gagal-username', true, time() + 3600, '/');
+        header("Location: index.php");
     } else {
         $stmtEmail->bind_param("s", $email);
         $stmtEmail->execute();
         $resultEmail = $stmtEmail->get_result();
         if ($resultEmail->num_rows > 0) {
-        ?>
-            <script>
-                Swal.fire({
-                    title: "Email telah dipakai!",
-                    text: "Inputkan email lain!",
-                    icon: "error"
-                });
-            </script>
-            <?php
+            setcookie('gagal-email', true, time() + 3600, '/');
+            header("Location: index.php");
         } else {
             $stmtPassport->bind_param("s", $passport);
             $stmtPassport->execute();
             $resultPassport = $stmtPassport->get_result();
             if ($resultPassport->num_rows > 0) {
-            ?>
-                <script>
-                    Swal.fire({
-                        title: "Nomor passport sudah dipakai!",
-                        text: "Inputkan nomor passport lain!",
-                        icon: "error"
-                    });
-                </script>
-            <?php
+                setcookie('gagal-passport', true, time() + 3600, '/');
+                header("Location: index.php");
             } else {
+                setcookie('berhasil-akun', true, time() + 3600, '/');
                 $stmt->bind_param("ssssss", $username, $password, $nama, $passport, $telp, $email);
                 $stmt->execute();
-                echo "<script> alert('Akun berhasil dibuat!') </script>";
-            ?>
-                <script>
-                    Swal.fire({
-                        title: "Akun berhasil dibuat!",
-                        text: "Silahkan login!",
-                        icon: "success"
-                    });
-                </script>
-        <?php
+                header("Location: index.php");
             }
         }
     }
@@ -193,19 +162,12 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
+        setcookie('berhasil-pass', true, time() + 3600, '/');
         $stmt = $conn->prepare("UPDATE user SET password = password(?) WHERE username = ?");
         $stmt->bind_param("ss", $password, $username);
         $password = $_POST["passwordRecovery"];
         $stmt->execute();
-        ?>
-        <script>
-            Swal.fire({
-                title: "Password berhasil diganti!",
-                text: "Silahkan login!",
-                icon: "success"
-            });
-        </script>
-        <?php
+        header("Location: index.php");
     } else {
         $stmt = $conn->prepare("SELECT * FROM user WHERE email = ?");
         $stmt->bind_param("s", $username);
@@ -213,32 +175,162 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
+            setcookie('berhasil-pass', true, time() + 3600, '/');
             $stmt = $conn->prepare("UPDATE user SET password = password(?) WHERE email = ?");
             $stmt->bind_param("ss", $password, $username);
             $password = $_POST["passwordRecovery"];
             $stmt->execute();
-        ?>
-            <script>
-                Swal.fire({
-                    title: "Password berhasil diganti!",
-                    text: "Silahkan login!",
-                    icon: "success"
-                });
-            </script>
-        <?php
+            header("Location: index.php");
         } else {
-        ?>
-            <script>
-                Swal.fire({
-                    title: "Username / email tidak terdaftar dalam database !",
-                    text: "Masukkan username / email yang benar!",
-                    icon: "error"
-                });
-            </script>
-<?php
+            setcookie('gagal-pass', true, time() + 3600, '/');
+            header("Location: index.php");
         }
     }
+} else {
+    session_destroy();
+}
+
+// $success = '';
+// // if (isset($_COOKIE['berhasil'])) {
+// //     setcookie('berhasil', null, time() - 3600, '/');
+
+// //     $success  = '<script>
+// //             Swal.fire({
+// //                 heightAuto: false,
+// //                 title: "Berhasil Login!",
+// //                 text: "Selamat datang!",
+// //                 icon: "success"
+// //             });
+// //         </script>';
+// // }
+
+$successAkun = '';
+if (isset($_COOKIE['berhasil-akun'])) {
+    setcookie('berhasil-akun', null, time() - 3600, '/');
+
+    $successAkun = '<script>
+            Swal.fire({
+                heightAuto: false,
+                title: "Akun berhasil dibuat!",
+                text: "Silahkan login!",
+                icon: "success"
+            });
+        </script>';
+}
+
+$successPass = '';
+if(isset($_COOKIE['berhasil-pass'])) {
+    setcookie('berhasil-pass', null, time() - 3600, '/');
+
+    $successPass = '<script>
+            Swal.fire({
+                heightAuto: false,
+                title: "Password berhasil diganti!",
+                text: "Silahkan login!",
+                icon: "success"
+            });
+        </script>';
+}
+
+$gagalPassword = '';
+if (isset($_COOKIE['gagal-password'])) {
+    setcookie('gagal-password', null, time() - 3600, '/');
+
+    $gagal  = "<script>
+                Swal.fire({
+                    heightAuto: false,
+                    title: 'Password Salah!',
+                    text: 'Inputkan password yang benar!',
+                    icon: 'error'
+                });
+            </script>";
+}
+
+$gagalUsername = '';
+if (isset($_COOKIE['gagal-username'])) {
+    setcookie('gagal-username', null, time() - 3600, '/');
+
+    $gagalUsername = '<script>
+            Swal.fire({
+                heightAuto: false,
+                title: "Username telah dipakai!",
+                text: "Inputkan username lain!",
+                icon: "error"
+            });
+        </script>';
+}
+
+$gagalEmail = '';
+if (isset($_COOKIE['gagal-email'])) {
+    setcookie('gagal-email', null, time() - 3600, '/');
+
+    $gagalEmail = '<script>
+            Swal.fire({
+                heightAuto: false,
+                title: "Email telah dipakai!",
+                text: "Inputkan email lain!",
+                icon: "error"
+            });
+        </script>';
+}
+
+$gagalPassport = '';
+if (isset($_COOKIE['gagal-passport'])) {
+    setcookie('gagal-passport', null, time() - 3600, '/');
+
+    $gagalPassport = '<script>
+            Swal.fire({
+                heightAuto: false,
+                title: "Nomor passport sudah dipakai!",
+                text: "Inputkan nomor passport lain!",
+                icon: "error"
+            });
+        </script>';
+}
+
+$gagalPass = '';
+if (isset($_COOKIE['gagal-pass'])) {
+    setcookie('gagal-pass', null, time() - 3600, '/');
+
+    $gagalPass = '<script>
+            Swal.fire({
+                heightAuto: false,
+                title: "Username / email tidak terdaftar dalam database !",
+                text: "Masukkan username / email yang benar!",
+                icon: "error"
+            });
+        </script>';
 }
 ?>
+    <div>
+        <?php
+        // if (!empty($success))
+        //     echo $success;
 
+        if (!empty($successAkun))
+            echo $successAkun;
+
+        if (!empty($successPass))
+            echo $successPass;
+
+        if (!empty($gagal))
+            echo $gagal;
+
+        if (!empty($gagalEmail))
+            echo $gagalEmail;
+
+        if (!empty($gagalPass))
+            echo $gagalPass;
+
+        if (!empty($gagalPassport))
+            echo $gagalPassport;
+
+        if (!empty($gagalPassword))
+            echo $gagalPassword;
+
+        if (!empty($gagalUsername))
+            echo $gagalUsername;
+        ?>
+    </div>
+</body>
 </html>
