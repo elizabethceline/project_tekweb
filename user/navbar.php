@@ -22,7 +22,8 @@ if ($status == PHP_SESSION_NONE) {
 
                 <ul class="navbar-nav mb-2 mb-lg-0">
 
-                    <?php if (isset($_SESSION['email'])) : ?>
+                    <?php ob_start();
+                    if (isset($_SESSION['email'])) : ?>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="../home/index.php"><i class="fa-solid fa-house" style="color: #ffffff;"></i> Home</a>
                         </li>
