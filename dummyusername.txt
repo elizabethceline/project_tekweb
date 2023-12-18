@@ -1,0 +1,18 @@
+LIST AKUN USER
+
+Username: user
+Password: user
+
+Username: elizabethceline
+Password: c14220061
+
+Username: cathoen
+Password: c14220146
+
+Username: dargo78
+Password: c14220049
+
+LIST AKUN ADMIN
+
+Username: admin
+Password: admin
