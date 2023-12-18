@@ -59,7 +59,8 @@ $user = $_SESSION["email"];
                                     JOIN `user` u ON (ft.id_user = u.id) 
                                     JOIN `airport` a ON (f.from = a.id)
                                     JOIN `airport` b ON (f.to = b.id)
-                                    WHERE (u.email = ? OR u.username = ?) AND f.status = 0");
+                                    WHERE (u.email = ? OR u.username = ?) AND f.status = 0
+                                    ORDER BY ft.id DESC");
         $stmt->bind_param('ss', $user, $user);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -241,7 +242,8 @@ $user = $_SESSION["email"];
                                     JOIN `user` u ON (ft.id_user = u.id) 
                                     JOIN `airport` a ON (f.from = a.id)
                                     JOIN `airport` b ON (f.to = b.id)
-                                    WHERE (u.email = ? OR u.username = ?) AND f.status = 1");
+                                    WHERE (u.email = ? OR u.username = ?) AND f.status = 1
+                                    ORDER BY ft.id DESC");
         $stmt->bind_param('ss', $user, $user);
         $stmt->execute();
         $result = $stmt->get_result();
