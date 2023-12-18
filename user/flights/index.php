@@ -385,21 +385,37 @@ if (!isset($_SESSION["email"])) {
                                     seatId: seatId
                                 },
                                 success: function(response) {
-                                    Swal.fire({
-                                        title: "Booking complete!",
-                                        text: "You've successfully secured your flight ticket. Have a great journey!",
-                                        icon: "success"
-                                    }).then((result) => {
-                                        if (result.isConfirmed) {
-                                            window.location.href = '../history/index.php';
-                                        }
-                                    });
+                                    response = JSON.parse(response); // Parse the JSON response
+                                    if (response.success) {
+                                        Swal.fire({
+                                            title: "Booking complete!",
+                                            text: "You've successfully secured your flight ticket. Have a great journey!",
+                                            icon: "success"
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                window.location.href = '../history/index.php';
+                                            }
+                                        });
+                                    } else if (response.error) {
+                                        // Handle the error case
+                                        console.log("Error:", response.error);
+                                        Swal.fire({
+                                            title: "Error!",
+                                            text: response.error,
+                                            icon: "error"
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                window.location.href = 'index.php';
+                                            }
+                                        });
+                                    }
                                 },
                                 error: function(error) {
                                     console.log("Error:", error);
                                 }
                             });
                         }
+
                     });
             });
         });

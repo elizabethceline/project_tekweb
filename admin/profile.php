@@ -17,7 +17,7 @@ if (isset($_SESSION['username'])) {
 
         <style>
             body {
-                background-color: #252529;
+                background-color: #F7F1F0;
                 height: 100vh;
             }
 
