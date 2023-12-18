@@ -3,6 +3,7 @@ $status = session_status();
 if ($status == PHP_SESSION_NONE) {
     session_start();
 }
+ob_start();
 ?>
 
 <div class="header-border" style="z-index: 1000;">
@@ -22,7 +23,7 @@ if ($status == PHP_SESSION_NONE) {
 
                 <ul class="navbar-nav mb-2 mb-lg-0">
 
-                    <?php ob_start();
+                    <?php
                     if (isset($_SESSION['email'])) : ?>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="../home/index.php"><i class="fa-solid fa-house" style="color: #ffffff;"></i> Home</a>
