@@ -21,14 +21,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             mysqli_stmt_bind_param($stmt, "iis", $flightId, $userId, $seatId);
 
             if (mysqli_stmt_execute($stmt)) {
-                // Send a success response
                 echo json_encode(["success" => "Booking successful"]);
             } else {
-                // Send an error response
                 echo json_encode(["error" => "Error: " . $sql . "<br>" . mysqli_error($conn)]);
             }
 
-            // Exit the script after sending the response
             exit();
         }
     }
